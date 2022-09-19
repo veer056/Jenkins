@@ -1,15 +1,7 @@
-pipeline{
-    agent any 
-    stages{
-        stage("check the connection k8s cluster"){
-            steps{
-            script{
-                withCredentials([kubeconfigFile(credentialsId: 'mykubeconfig')]) {
-                   sh ' kubectl get po -n devops '
-                }
-              }
-            }
-        }
-      }
+node {
+  stage('List pods') {
+    withKubeConfig([credentialsId: 'mykubeconfig']) {
+        sh 'kubectl get pods -n devops'
     }
-         
+  }
+}
