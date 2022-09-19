@@ -1,1 +1,1 @@
-curl -s http://34.125.203.155:8081/service/rest/v1/repositories | jq '.[] | select ( .format == "docker" ) | .name ' | sed 's/"//g'
+curl -s http://localhost:8001/api/v1/namespaces/ | jq '.items[].metadata.name'
