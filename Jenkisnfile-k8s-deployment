@@ -4,25 +4,9 @@ pipeline{
         stage("check the connection k8s cluster"){
             steps{
             script{
-                withCredentials([kubeconfigFile(credentialsId: 'kubernetes-config', variable: 'KUBECONFIG')]) {
+                withCredentials([kubeconfigFile(credentialsId: 'kubernetes-config')]) {
                    sh ' kubectl get po '
                 }
               }
             }
         }
-        
-        stage("replacing the image name and deploying to the cluster"){
-            steps{
-                script {
-                withCredentials([kubeconfigFile(credentialsId: 'kubernetes-config', variable: 'KUBECONFIG')]) {
-                    sh '''
-                    sed -i "s;IMAGENAME;$imagename;" jenkins-k8s.yaml
-                    kubectl apply -f jenkins-k8s.yaml
-                    '''
-                  }
-                }
-            }
-        } 
-        
-    }
-}
